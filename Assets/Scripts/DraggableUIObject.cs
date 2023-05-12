@@ -5,12 +5,14 @@ public class DraggableUIObject : MonoBehaviour, IBeginDragHandler, IDragHandler,
 {
     public Transform parentAfterDrag;
     private Transform originalParent;
+    private Vector2 dragSize = new Vector2(113, 113);
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         originalParent = transform.parent;
         parentAfterDrag = originalParent;
         transform.SetParent(transform.root);
+        (transform as RectTransform).sizeDelta = dragSize;
         GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
 
