@@ -2,18 +2,17 @@ using UnityEngine;
 
 public class FpsLimit : MonoBehaviour
 {
-    private bool lowFrameRateEnabled = false;
-    [SerializeField] private int defaultFrameRate = 144;
-    [SerializeField] private int lowFrameRate = 30;
-     
+    private int defaultFrameRate = 240;
+    private int lowFrameRate = 60;
+
+    public int DefaultFrameRate { get{ return defaultFrameRate;} }
+    public int LowFrameRate { get { return lowFrameRate; } }
+
     void Start()
     {
-        Application.targetFrameRate = defaultFrameRate;
-    }
-
-    void ToggleLowFrameRate()
-    {
-        lowFrameRateEnabled = !lowFrameRateEnabled;
-        Application.targetFrameRate = lowFrameRateEnabled ? lowFrameRate : defaultFrameRate;
+        if (Application.targetFrameRate > DefaultFrameRate || Application.targetFrameRate < LowFrameRate)
+        {
+            Application.targetFrameRate = DefaultFrameRate;
+        }
     }
 }
