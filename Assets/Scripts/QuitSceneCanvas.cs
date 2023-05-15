@@ -3,16 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class QuitConfirmationPopup : MonoBehaviour
+public class QuitSceneCanvas : CanvasPopup
 {
-    private Canvas parentCanvas;
-
-    private void Start()
-    {
-        parentCanvas = transform.parent.GetComponent<Canvas>();
-        parentCanvas.enabled = false;
-    }
-
     void Update()
     {
         if (Input.GetButtonDown("Escape"))
@@ -20,21 +12,12 @@ public class QuitConfirmationPopup : MonoBehaviour
             if (parentCanvas.enabled)
             {
                 HidePopup();
-            } else
+            }
+            else
             {
                 ShowPopup();
             }
         }
-    }
-
-    public void HidePopup()
-    {
-        parentCanvas.enabled = false;
-    }
-
-    public void ShowPopup()
-    {
-        parentCanvas.enabled = true;
     }
 
     public void LoadMainMenu()
