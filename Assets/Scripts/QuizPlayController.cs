@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using TMPro;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class QuizPlaySession : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class QuizPlaySession : MonoBehaviour
     [SerializeField] private GameObject _mainGrid;
     [SerializeField] private GameObject _subGrid;
     [SerializeField] private GameObject _itemPrefab;
+    [SerializeField] private RawImage _backgroundImageComponent;
 
     private List<TMP_Text> textComponents = new List<TMP_Text>();
     public List<ImagePair> imagePairs;
@@ -21,18 +23,20 @@ public class QuizPlaySession : MonoBehaviour
 
     IEnumerator Start()
     {
-        yield return new WaitForSeconds(0.1f);
-        ShowInfoMessage("Laden...");
+        yield return new WaitUntil(() => _canvasPopup != null && _canvasPopup.isReady);
+        AssignmentQuiz.ShowInfoMessage(_canvasPopup, "Laden...");
         List<Item> items = loadedQuiz.quiz.items;
         imagePairs = new List<ImagePair>();
         for (int i = 0; i < _mainGrid.transform.childCount; i++)
         {
             GameObject editItem = _mainGrid.transform.GetChild(i).gameObject;
-            GameObject nameTextObject = QuizEditor.FindChildWithTag(editItem, "NameInput");
-            GameObject titleTextObject = QuizEditor.FindChildWithTag(editItem, "TitleInput");
+            GameObject nameTextObject = AssignmentQuiz.FindChildWithTag(editItem, "NameInput");
+            GameObject titleTextObject = AssignmentQuiz.FindChildWithTag(editItem, "TitleInput");
             textComponents.Add(nameTextObject.GetComponent<TMP_Text>());
             textComponents.Add(titleTextObject.GetComponent<TMP_Text>());
         }
+        int imagesLoaded = 0;
+        int totalImagesToLoad = items.Count * 2 + 1; // 2 images per item (Artwork, Portrait) and one background image
         for (int i = 0; i < items.Count; i++)
         {
             Item item = items[i];
@@ -41,17 +45,27 @@ public class QuizPlaySession : MonoBehaviour
 
             ImagePair imagePair = new ImagePair();
             imagePair.position = i;
-            imagePair.portrait = QuizEditor.LoadTexture(item.portraitImagePath);
-            _canvasPopup.SetPopupText($"Laden...({i * 2 + 1}/{items.Count * 2})");
+            imagePair.portrait = AssignmentQuiz.LoadTexture(item.portraitImagePath);
+            AssignmentQuiz.ShowInfoMessage(_canvasPopup, $"Laden...({++imagesLoaded}/{totalImagesToLoad})");
             yield return null;
-            imagePair.artwork = QuizEditor.LoadTexture(item.artworkImagePath);
-            _canvasPopup.SetPopupText($"Laden...({i * 2 + 2}/{items.Count * 2})");
+            imagePair.artwork = AssignmentQuiz.LoadTexture(item.artworkImagePath);
+            AssignmentQuiz.ShowInfoMessage(_canvasPopup, $"Laden...({++imagesLoaded}/{totalImagesToLoad})");
             yield return null;
             imagePairs.Add(imagePair);
         }
-        _artworkImage.color = Color.white;
+
+        Texture2D backgroundTexture = AssignmentQuiz.LoadTexture(loadedQuiz.quiz.backgroundPath);
+        if (backgroundTexture != null)
+        {
+            _backgroundImageComponent.texture = backgroundTexture;
+            _backgroundImageComponent.color = Color.white;
+        }
+        
+        AssignmentQuiz.ShowInfoMessage(_canvasPopup, $"Laden...({++imagesLoaded}/{totalImagesToLoad})");
+        yield return null;
+
         _canvasPopup.HidePopup();
-        Shuffle(imagePairs);
+        AssignmentQuiz.Shuffle(imagePairs);
         ShowNextItem();
     }
 
@@ -61,6 +75,10 @@ public class QuizPlaySession : MonoBehaviour
         {
             ShowNextItem();
         }
+        if (Input.GetButtonDown("ClearArtwork"))
+        {
+            AssignmentQuiz.SetRawImageTexture(_artworkImage, null);
+        }
     }
 
     public void ShowNextItem()
@@ -69,44 +87,28 @@ public class QuizPlaySession : MonoBehaviour
         {
             return;
         }
-        _artworkImage.texture = imagePairs[upcomingItem].artwork;
-        GameObject emptySlot = FindEmptySlot();
+        AssignmentQuiz.SetRawImageTexture(_artworkImage, imagePairs[upcomingItem].artwork);
+        GameObject emptySlot = GetEmptySlot();
         GameObject item = Instantiate(_itemPrefab, emptySlot.transform);
-        item.GetComponent<RawImage>().texture = imagePairs[upcomingItem].portrait;
+        ItemController itemController = item.GetComponent<ItemController>();
+        itemController.Texture = imagePairs[upcomingItem].portrait;
+        itemController.ArtworkTexture = imagePairs[upcomingItem].artwork;
+        itemController.Id = imagePairs[upcomingItem].position;
         upcomingItem++;
     }
 
-    private GameObject FindEmptySlot()
+    private GameObject GetEmptySlot()
     {
         GameObject emptySlot = null;
         for (int i = 0; i < _subGrid.transform.childCount; i++)
         {
-            GameObject slot = QuizEditor.FindChildWithTag(_subGrid.transform.GetChild(i).gameObject, "Slot");
+            GameObject slot = AssignmentQuiz.FindChildWithTag(_subGrid.transform.GetChild(i).gameObject, "Slot");
             if (slot.transform.childCount == 0)
             {
                 emptySlot = slot;
                 break;
-            }
-            
+            }   
         }
         return emptySlot;
     }
-
-    public void ShowInfoMessage(string infoMessage)
-    {
-        _canvasPopup.SetPopupText(infoMessage);
-        _canvasPopup.ShowPopup();
-    }
-
-    public static void Shuffle<T>(List<T> list)
-    {
-        for (int i = 0; i < list.Count; i++)
-        {
-            T temp = list[i];
-            int randomIndex = UnityEngine.Random.Range(i, list.Count);
-            list[i] = list[randomIndex];
-            list[randomIndex] = temp;
-        }
-    }
-
 }

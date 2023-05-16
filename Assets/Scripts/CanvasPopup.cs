@@ -8,10 +8,19 @@ public class CanvasPopup : MonoBehaviour
 {
     public Canvas parentCanvas;
     public TMP_Text popupText;
+    public bool isReady = false;
+    public bool showFromStart;
 
     private void Start()
     {
-        HidePopup();
+        if (showFromStart)
+        {
+            ShowPopup();
+        } else
+        {
+            HidePopup();
+        }
+        isReady = true;
     }
 
     public void HidePopup()

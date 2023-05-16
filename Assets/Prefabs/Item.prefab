@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 1288512942827445983}
   - component: {fileID: 6841754818465016628}
   - component: {fileID: 3555108044366214646}
-  - component: {fileID: 4551072115179181014}
   - component: {fileID: 2650662719892402993}
+  - component: {fileID: 4551072115179181014}
+  - component: {fileID: 6659236203189815897}
   m_Layer: 5
   m_Name: Item
   m_TagString: Untagged
@@ -75,6 +76,18 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!225 &2650662719892402993
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7152410565839403814}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &4551072115179181014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,15 +101,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentAfterDrag: {fileID: 0}
---- !u!225 &2650662719892402993
-CanvasGroup:
+--- !u!114 &6659236203189815897
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7152410565839403814}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67b79bf65b7319b42aef77053b6c2e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

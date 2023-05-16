@@ -5,40 +5,13 @@ using System.IO;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System;
-
-[System.Serializable]
-public class Item
-{
-    public string name;
-    public string title;
-    public string portraitImagePath;
-    public string artworkImagePath;
-}
-
-[System.Serializable]
-public class Quiz
-{
-    public List<Item> items;
-}
-
-[System.Serializable]
-public class LoadedImage
-{
-    public string name;
-    public string path;
-    public Texture2D texture;
-}
-
-[System.Serializable]
-public class ImagePair
-{
-    public int position;
-    public Texture2D portrait;
-    public Texture2D artwork;
-}
+using UnityEngine.UIElements;
+using System.Linq;
 
 public class QuizEditor : MonoBehaviour
 {
+    private readonly string BACKGROUND_IMAGE_NAME = "background";
+
     public Quiz activeQuiz;
     private string RESOURCES_PATH;
     private string QUIZZES_PATH;
@@ -48,6 +21,8 @@ public class QuizEditor : MonoBehaviour
     private List<TMP_InputField> editorInputFieldComponents = new List<TMP_InputField>();
     private List<ImageSelectButton> editorPreviewImageComponents = new List<ImageSelectButton>();
 
+
+    [SerializeField] private ImageSelectButton backgroundImageComponent;
     [SerializeField] private TMP_Dropdown _quizSelectionDropdown;
     [SerializeField] private TMP_Dropdown _folderDropdown;
     [SerializeField] private TMP_InputField _quizNameInput;
@@ -65,10 +40,10 @@ public class QuizEditor : MonoBehaviour
         for (int i = 0; i < itemGrid.transform.childCount; i++)
         {
             GameObject editItem = itemGrid.transform.GetChild(i).gameObject;
-            GameObject nameInputField = FindChildWithTag(editItem, "NameInput");
-            GameObject titleInputField = FindChildWithTag(editItem, "TitleInput");
-            GameObject portraitPreviewImage = FindChildWithTag(editItem, "PortraitPreviewImage");
-            GameObject artworkPreviewImage = FindChildWithTag(editItem, "ArtworkPreviewImage");
+            GameObject nameInputField = AssignmentQuiz.FindChildWithTag(editItem, "NameInput");
+            GameObject titleInputField = AssignmentQuiz.FindChildWithTag(editItem, "TitleInput");
+            GameObject portraitPreviewImage = AssignmentQuiz.FindChildWithTag(editItem, "PortraitPreviewImage");
+            GameObject artworkPreviewImage = AssignmentQuiz.FindChildWithTag(editItem, "ArtworkPreviewImage");
             editorInputFieldComponents.Add(nameInputField.GetComponent<TMP_InputField>());
             editorInputFieldComponents.Add(titleInputField.GetComponent<TMP_InputField>());
             editorPreviewImageComponents.Add(portraitPreviewImage.GetComponent<ImageSelectButton>());
@@ -91,27 +66,6 @@ public class QuizEditor : MonoBehaviour
         NewQuiz();
     }
 
-    public static GameObject FindChildWithTag(GameObject parent, string tag)
-    {
-        GameObject result = null;
-
-        foreach (Transform child in parent.transform)
-        {
-            if (child.CompareTag(tag))
-            {
-                result = child.gameObject;
-                break;
-            }
-            else
-            {
-                result = FindChildWithTag(child.gameObject, tag);
-                if (result != null)
-                    break;
-            }
-        }
-        return result;
-    }
-
     private void UpdateDirectories()
     {
         RESOURCES_PATH = Path.Combine(Application.dataPath, "QuizResources");
@@ -124,12 +78,6 @@ public class QuizEditor : MonoBehaviour
         {
             Directory.CreateDirectory(QUIZZES_PATH);
         }
-    }
-
-    public void ShowInfoMessage(string infoMessage)
-    {
-        _canvasPopup.SetPopupText(infoMessage);
-        _canvasPopup.ShowPopup();
     }
 
     public void LoadMainMenu()
@@ -151,6 +99,7 @@ public class QuizEditor : MonoBehaviour
 
     public void ResetEditor()
     {
+        backgroundImageComponent.ResetImage();
         foreach (ImageSelectButton imageButton in editorPreviewImageComponents)
         {
             imageButton.ResetImage();
@@ -224,7 +173,7 @@ public class QuizEditor : MonoBehaviour
         }
         string json = JsonUtility.ToJson(activeQuiz);
         File.WriteAllText(path, json);
-        ShowInfoMessage($"Erfolgreich gespeichert als {fileName}.");
+        AssignmentQuiz.ShowInfoMessage(_canvasPopup, $"Erfolgreich gespeichert als {fileName}.");
         RefreshQuizzesDropdownContents(_quizSelectionDropdown);
     }
 
@@ -235,11 +184,11 @@ public class QuizEditor : MonoBehaviour
         {
             string json = JsonUtility.ToJson(activeQuiz);
             File.WriteAllText(path, json);
-            ShowInfoMessage($"{requestedFileName} wurde erfolgreich überschrieben.");
+            AssignmentQuiz.ShowInfoMessage(_canvasPopup, $"{requestedFileName} wurde erfolgreich überschrieben.");
         }
         else
         {
-            ShowInfoMessage($"{requestedFileName} existiert nicht.");
+            AssignmentQuiz.ShowInfoMessage(_canvasPopup, $"{requestedFileName} existiert nicht.");
         }
         RefreshQuizzesDropdownContents(_quizSelectionDropdown);
     }
@@ -312,11 +261,11 @@ public class QuizEditor : MonoBehaviour
         if (File.Exists(path))
         {
             File.Delete(path);
-            ShowInfoMessage($"{quizName} wurde erfolgreich gelöscht.");
+            AssignmentQuiz.ShowInfoMessage(_canvasPopup, $"{quizName} wurde erfolgreich gelöscht.");
         }
         else
         {
-            ShowInfoMessage($"{quizName} existiert nicht.");
+            AssignmentQuiz.ShowInfoMessage(_canvasPopup, $"{quizName} existiert nicht.");
         }
         RefreshQuizzesDropdownContents(_quizSelectionDropdown);
     }
@@ -328,13 +277,17 @@ public class QuizEditor : MonoBehaviour
             Item item = activeQuiz.items[i];
             editorInputFieldComponents[i * 2].SetTextWithoutNotify(item.name);
             editorInputFieldComponents[i * 2 + 1].SetTextWithoutNotify(item.title);
-            Texture2D portraitTexture = LoadTexture(item.portraitImagePath);
+            Texture2D portraitTexture = AssignmentQuiz.LoadTexture(item.portraitImagePath);
             editorPreviewImageComponents[i * 2].SetImage(portraitTexture);
             yield return null;
-            Texture2D artworkTexture = LoadTexture(item.artworkImagePath);
+            Texture2D artworkTexture = AssignmentQuiz.LoadTexture(item.artworkImagePath);
             editorPreviewImageComponents[i * 2 + 1].SetImage(artworkTexture);
             yield return null;
         }
+
+        Texture2D backgroundTexture = AssignmentQuiz.LoadTexture(activeQuiz.backgroundPath);
+        backgroundImageComponent.SetImage(backgroundTexture);
+        yield return null;
 
         callback?.Invoke();
     }
@@ -364,21 +317,28 @@ public class QuizEditor : MonoBehaviour
 
             foreach (LoadedImage image in images)
             {
-                int index = fileOrder.FindIndex(x => x.StartsWith(image.name));
-                editorPreviewImageComponents[index].SetImage(image.texture);
-                int itemIndex = (index / 2);
-                bool isPortraitImage = index % 2 == 0;
-                Item item = activeQuiz.items[itemIndex];
-                if (isPortraitImage)
+                if (image.name == BACKGROUND_IMAGE_NAME)
                 {
-                    item.portraitImagePath = image.path;
+                    backgroundImageComponent.SetImage(image.texture);
+                    activeQuiz.backgroundPath = image.path;
                 }
                 else
                 {
-                    item.artworkImagePath = image.path;
+                    int index = fileOrder.FindIndex(x => x.StartsWith(image.name));
+                    editorPreviewImageComponents[index].SetImage(image.texture);
+                    int itemIndex = (index / 2);
+                    bool isPortraitImage = index % 2 == 0;
+                    Item item = activeQuiz.items[itemIndex];
+                    if (isPortraitImage)
+                    {
+                        item.portraitImagePath = image.path;
+                    }
+                    else
+                    {
+                        item.artworkImagePath = image.path;
+                    }
                 }
             }
-
             _importImagesButtonText.text = originalButtonText;
             Debug.Log("Done setting images.");
         }));
@@ -386,12 +346,15 @@ public class QuizEditor : MonoBehaviour
 
     public IEnumerator LoadImages(string folderPath, Action<int, int> updateCallback, Action<List<LoadedImage>> callback)
     {
-        string[] imagePaths = Directory.GetFiles(folderPath, "*.png");
+        string[] pngPaths = Directory.GetFiles(folderPath, "*.png");
+        string[] jpgPaths = Directory.GetFiles(folderPath, "*.jpg");
+        string[] imagePaths = pngPaths.Concat(jpgPaths).ToArray();
+
         List<LoadedImage> images = new();
         for (int i = 0; i < imagePaths.Length; i++)
         {
             string path = imagePaths[i];
-            Texture2D texture = LoadTexture(path);
+            Texture2D texture = AssignmentQuiz.LoadTexture(path);
             if (texture != null)
             {
                 LoadedImage image = new()
@@ -408,19 +371,5 @@ public class QuizEditor : MonoBehaviour
         }
 
         callback?.Invoke(images);
-    }
-
-    public static Texture2D LoadTexture(string filePath)
-    {
-        Texture2D tex = null;
-        byte[] fileData;
-
-        if (File.Exists(filePath))
-        {
-            fileData = File.ReadAllBytes(filePath);
-            tex = new Texture2D(2, 2, TextureFormat.BGRA32, false);
-            tex.LoadImage(fileData);
-        }
-        return tex;
     }
 }

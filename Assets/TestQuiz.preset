@@ -1,0 +1,435 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TestQuiz
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: 1bff98bab331db6498d048074d2eba47, type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.size
+    value: 25
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[0].name
+    value: Claude
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[0].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[0].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p1.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[0].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a1.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[1].name
+    value: Claude
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[1].title
+    value: Timeskip
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[1].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p2.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[1].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a2.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[2].name
+    value: Claude
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[2].title
+    value: Summer
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[2].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p3.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[2].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a3.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[3].name
+    value: Claude
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[3].title
+    value: Timeskip 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[3].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p4.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[3].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a4.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[4].name
+    value: Dimitri
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[4].title
+    value: Timeskip
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[4].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p5.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[4].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a5.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[5].name
+    value: Takumi
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[5].title
+    value: Valentinstag
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[5].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p6.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[5].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a6.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[6].name
+    value: Takumi
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[6].title
+    value: New Year
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[6].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p7.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[6].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a7.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[7].name
+    value: Takumi
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[7].title
+    value: Summer
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[7].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p8.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[7].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a8.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[8].name
+    value: Alfonse
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[8].title
+    value: Valentinstag
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[8].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p9.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[8].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a9.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[9].name
+    value: Alfonse
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[9].title
+    value: New Year
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[9].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p10.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[9].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a10.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[10].name
+    value: Robin
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[10].title
+    value: Valentinstag
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[10].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p11.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[10].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a11.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[11].name
+    value: Byleth
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[11].title
+    value: "m\xE4nnlich"
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[11].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p12.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[11].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a12.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[12].name
+    value: Byleth
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[12].title
+    value: weiblich
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[12].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p13.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[12].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a13.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[13].name
+    value: Scaramouche
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[13].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[13].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p14.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[13].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a14.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[14].name
+    value: Childe
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[14].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[14].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p15.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[14].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a15.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[15].name
+    value: Thoma
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[15].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[15].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p16.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[15].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a16.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[16].name
+    value: Gorou
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[16].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[16].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p17.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[16].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a17.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[17].name
+    value: Albedo
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[17].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[17].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p18.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[17].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a18.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[18].name
+    value: Kazuha
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[18].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[18].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p19.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[18].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a19.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[19].name
+    value: Kaveh
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[19].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[19].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p20.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[19].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a20.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[20].name
+    value: Diluc
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[20].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[20].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p21.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[20].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a21.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[21].name
+    value: Alhaitham
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[21].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[21].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p22.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[21].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a22.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[22].name
+    value: Ayato
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[22].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[22].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p23.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[22].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a23.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[23].name
+    value: Rhea
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[23].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[23].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p24.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[23].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a24.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[24].name
+    value: Lumera
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[24].title
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[24].portraitImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\p25.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.items.Array.data[24].artworkImagePath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\a25.png
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: quiz.backgroundPath
+    value: C:/Users/marli/Documents/UnityProjects/AssignmentQuiz/Assets\QuizResources\TestImageSet\background.jpg
+    objectReference: {fileID: 0}
+  m_ExcludedProperties: []
