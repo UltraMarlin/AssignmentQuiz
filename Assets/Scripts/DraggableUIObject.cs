@@ -4,11 +4,15 @@ using UnityEngine.EventSystems;
 public class DraggableUIObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Transform parentAfterDrag;
-    private Transform originalParent;
-    private Vector2 dragSize = new Vector2(113, 113);
+    public Transform originalParent;
+    private Vector2 dragSize = new Vector2(120, 120);
+    private readonly PointerEventData.InputButton interactionMouseButton = PointerEventData.InputButton.Left;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (eventData.button != interactionMouseButton)
+            return;
+
         originalParent = transform.parent;
         parentAfterDrag = originalParent;
         transform.SetParent(transform.root);
@@ -18,12 +22,19 @@ public class DraggableUIObject : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (eventData.button != interactionMouseButton)
+            return;
+
         transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (eventData.button != interactionMouseButton)
+            return;
+
         transform.SetParent(parentAfterDrag);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
+
 }

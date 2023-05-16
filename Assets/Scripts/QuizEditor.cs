@@ -7,6 +7,8 @@ using TMPro;
 using System;
 using UnityEngine.UIElements;
 using System.Linq;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class QuizEditor : MonoBehaviour
 {
@@ -66,6 +68,34 @@ public class QuizEditor : MonoBehaviour
         NewQuiz();
     }
 
+    private void Update()
+    {
+        if (Input.GetButtonDown("NextInputField"))
+        {
+            SelectNextInputField();
+        }
+    }
+
+    private void SelectNextInputField()
+    {
+        EventSystem currentEventSystem = EventSystem.current;
+        GameObject currentSelected = currentEventSystem.currentSelectedGameObject;
+
+        if (currentSelected != null)
+        {
+            if (currentSelected.TryGetComponent<TMP_InputField>(out var selectedInputField))
+            {
+                int currentIndex = editorInputFieldComponents.IndexOf(selectedInputField);
+                if (currentIndex >= 0)
+                {
+                    // Move to the next input field, or loop back to the first one if we're at the end of the list
+                    int nextIndex = (currentIndex + 1) % editorInputFieldComponents.Count;
+                    currentEventSystem.SetSelectedGameObject(editorInputFieldComponents[nextIndex].gameObject);
+                }
+            }
+        }
+    }
+
     private void UpdateDirectories()
     {
         RESOURCES_PATH = Path.Combine(Application.dataPath, "QuizResources");
@@ -113,7 +143,6 @@ public class QuizEditor : MonoBehaviour
 
     public void UpdateInputFieldData(string text=null)
     {
-        Debug.Log("Updating Input Field data");
         for (int i = 0; i < editorInputFieldComponents.Count; i++)
         {
             int itemIndex = i / 2;
