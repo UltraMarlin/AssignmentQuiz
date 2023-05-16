@@ -10,10 +10,14 @@ public class CanvasPopup : MonoBehaviour
     public TMP_Text popupText;
     public bool isReady = false;
     public bool showFromStart;
+    public bool clearFromStart;
 
     private void Start()
     {
-        SetPopupText("");
+        if(clearFromStart)
+        {
+            SetPopupText("");
+        }
         if (showFromStart)
         {
             ShowPopup();

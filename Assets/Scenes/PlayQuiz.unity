@@ -3243,6 +3243,7 @@ MonoBehaviour:
   popupText: {fileID: 545334107}
   isReady: 0
   showFromStart: 1
+  clearFromStart: 1
 --- !u!1001 &676032699
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5935,6 +5936,7 @@ MonoBehaviour:
   popupText: {fileID: 723117402}
   isReady: 0
   showFromStart: 0
+  clearFromStart: 0
 --- !u!1001 &1089779963
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7501,7 +7503,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1282961020}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}

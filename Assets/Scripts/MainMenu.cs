@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private LoadedQuiz loadedQuiz;
 
     [SerializeField] private TMP_Dropdown _quizSelectionDropdown;
+    [SerializeField] private CanvasPopup _infoPopup;
     [SerializeField] private FpsLimit fpsLimit;
     [SerializeField] private Toggle lowFPSToggle;
 
@@ -25,6 +26,14 @@ public class MainMenu : MonoBehaviour
         }
         lowFPSToggle.isOn = Application.targetFrameRate == fpsLimit.LowFrameRate;
         RefreshQuizzesDropdownContents(_quizSelectionDropdown);
+    }
+
+    void Update()
+    {
+        if (Input.GetButtonDown("Escape"))
+        {
+            HideHelp();
+        }
     }
 
     public void ConfigureQuiz()
@@ -40,6 +49,16 @@ public class MainMenu : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void ShowHelp()
+    {
+        _infoPopup.ShowPopup();
+    }
+
+    public void HideHelp()
+    {
+        _infoPopup.HidePopup();
     }
 
     public void RefreshQuizzesDropdownContents(TMP_Dropdown quizSelectionDropdown)
