@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 533887835592375260, guid: c37faab5d8923f248b8324573daa78d1, type: 3}
       propertyPath: m_text
-      value: "Artwork\nw\xE4hlen"
+      value: Artwork
       objectReference: {fileID: 0}
     - target: {fileID: 1844514346648447145, guid: c37faab5d8923f248b8324573daa78d1, type: 3}
       propertyPath: m_Name

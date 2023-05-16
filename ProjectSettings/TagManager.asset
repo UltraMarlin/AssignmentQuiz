@@ -9,6 +9,7 @@ TagManager:
   - ItemGrid
   - NameInput
   - TitleInput
+  - Slot
   layers:
   - Default
   - TransparentFX

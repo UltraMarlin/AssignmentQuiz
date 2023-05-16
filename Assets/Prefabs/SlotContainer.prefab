@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 8574208504049646634}
   m_Layer: 5
   m_Name: Name
-  m_TagString: Untagged
+  m_TagString: NameInput
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 2389160668837972858}
   m_Layer: 5
   m_Name: Title
-  m_TagString: Untagged
+  m_TagString: TitleInput
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

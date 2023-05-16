@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using TMPro;
 using System;
-using System.IO.Enumeration;
 
 [System.Serializable]
 public class Item
@@ -31,6 +29,14 @@ public class LoadedImage
     public Texture2D texture;
 }
 
+[System.Serializable]
+public class ImagePair
+{
+    public int position;
+    public Texture2D portrait;
+    public Texture2D artwork;
+}
+
 public class QuizEditor : MonoBehaviour
 {
     public Quiz activeQuiz;
@@ -45,7 +51,10 @@ public class QuizEditor : MonoBehaviour
     [SerializeField] private TMP_Dropdown _quizSelectionDropdown;
     [SerializeField] private TMP_Dropdown _folderDropdown;
     [SerializeField] private TMP_InputField _quizNameInput;
+    [SerializeField] private ChoiceCanvasPopup _choiceCanvasPopup;
     [SerializeField] private CanvasPopup _canvasPopup;
+    [SerializeField] private TextMeshProUGUI _loadQuizButtonText;
+    [SerializeField] private TextMeshProUGUI _importImagesButtonText;
 
     private void Start()
     {
@@ -82,6 +91,27 @@ public class QuizEditor : MonoBehaviour
         NewQuiz();
     }
 
+    public static GameObject FindChildWithTag(GameObject parent, string tag)
+    {
+        GameObject result = null;
+
+        foreach (Transform child in parent.transform)
+        {
+            if (child.CompareTag(tag))
+            {
+                result = child.gameObject;
+                break;
+            }
+            else
+            {
+                result = FindChildWithTag(child.gameObject, tag);
+                if (result != null)
+                    break;
+            }
+        }
+        return result;
+    }
+
     private void UpdateDirectories()
     {
         RESOURCES_PATH = Path.Combine(Application.dataPath, "QuizResources");
@@ -96,27 +126,10 @@ public class QuizEditor : MonoBehaviour
         }
     }
 
-    GameObject FindChildWithTag(GameObject parent, string tag)
+    public void ShowInfoMessage(string infoMessage)
     {
-        GameObject result = null;
-
-        foreach (Transform child in parent.transform)
-        {
-            // First, check if this child has the desired tag
-            if (child.CompareTag(tag))
-            {
-                result = child.gameObject;
-                break;
-            }
-            // If not, recursively search this child's children
-            else
-            {
-                result = FindChildWithTag(child.gameObject, tag);
-                if (result != null)
-                    break;
-            }
-        }
-        return result;
+        _canvasPopup.SetPopupText(infoMessage);
+        _canvasPopup.ShowPopup();
     }
 
     public void LoadMainMenu()
@@ -126,8 +139,18 @@ public class QuizEditor : MonoBehaviour
 
     public void NewQuiz()
     {
+        ResetEditor();
         activeQuiz = new Quiz();
         activeQuiz.items = new List<Item>();
+        for (int i = 0; i < itemAmount; i++)
+        {
+            Item item = new Item();
+            activeQuiz.items.Add(item);
+        }
+    }
+
+    public void ResetEditor()
+    {
         foreach (ImageSelectButton imageButton in editorPreviewImageComponents)
         {
             imageButton.ResetImage();
@@ -136,11 +159,7 @@ public class QuizEditor : MonoBehaviour
         {
             inputField.text = null;
         }
-        for (int i = 0; i < itemAmount; i++)
-        {
-            Item item = new Item();
-            activeQuiz.items.Add(item);
-        }
+        _quizNameInput.SetTextWithoutNotify(null);
     }
 
     public void UpdateInputFieldData(string text=null)
@@ -164,31 +183,65 @@ public class QuizEditor : MonoBehaviour
 
     public void SaveQuiz()
     {
-        string fileName = _quizNameInput.text;
-        if (fileName.Length <= 0)
+        string requestedFileName = _quizNameInput.text;
+        if (requestedFileName.Length <= 0)
         {
-            fileName = "NeuesQuiz";
+            requestedFileName = "NeuesQuiz";
         }
-        SaveActiveQuizWithName(fileName);
+        string path = Path.Combine(QUIZZES_PATH, requestedFileName) + ".json";
+        if (File.Exists(path))
+        {
+            ShowSaveChoicePopup(requestedFileName);
+        }
+        else
+        {
+            SaveActiveQuizWithName(requestedFileName);
+        }
+    }
+
+    public void ShowSaveChoicePopup(string requestedFileName)
+    {
+        _choiceCanvasPopup.SetPopupText($"{requestedFileName} existiert bereits.");
+        _choiceCanvasPopup.SetLeftChoiceText("Überschreiben");
+        _choiceCanvasPopup.SetRightChoiceText("Neu Speichern");
+        _choiceCanvasPopup.ResetClickActions();
+        _choiceCanvasPopup.AddLeftChoiceClickAction(OverwriteQuizFile, requestedFileName);
+        _choiceCanvasPopup.AddRightChoiceClickAction(SaveActiveQuizWithName, requestedFileName);
+        _choiceCanvasPopup.ShowPopup();
     }
 
     public void SaveActiveQuizWithName(string requestedFileName)
     {
         UpdateInputFieldData();
         string fileName = requestedFileName;
-        string path = Path.Combine(QUIZZES_PATH, fileName);
+        string path = Path.Combine(QUIZZES_PATH, fileName) + ".json";
         int counter = 1;
 
-        while (File.Exists(path + ".json"))
+        while (File.Exists(path))
         {
             fileName = $"{requestedFileName}_{counter++}";
-            path = Path.Combine(QUIZZES_PATH, fileName);
+            path = Path.Combine(QUIZZES_PATH, fileName) + ".json";
         }
-        path += ".json";
         string json = JsonUtility.ToJson(activeQuiz);
         File.WriteAllText(path, json);
-        _canvasPopup.SetPopupText($"Gespeichert als \"{fileName}\"");
-        _canvasPopup.ShowPopup();
+        ShowInfoMessage($"Erfolgreich gespeichert als {fileName}.");
+        RefreshQuizzesDropdownContents(_quizSelectionDropdown);
+    }
+
+    public void OverwriteQuizFile(string requestedFileName)
+    {
+        string path = Path.Combine(QUIZZES_PATH, requestedFileName) + ".json";
+        if (File.Exists(path))
+        {
+            string json = JsonUtility.ToJson(activeQuiz);
+            File.WriteAllText(path, json);
+            ShowInfoMessage($"{requestedFileName} wurde erfolgreich überschrieben.");
+        }
+        else
+        {
+            ShowInfoMessage($"{requestedFileName} existiert nicht.");
+        }
+        RefreshQuizzesDropdownContents(_quizSelectionDropdown);
     }
 
     public void RefreshQuizzesDropdownContents(TMP_Dropdown quizSelectionDropdown)
@@ -206,21 +259,69 @@ public class QuizEditor : MonoBehaviour
 
     public void LoadQuizFromDropdown(TMP_Dropdown quizSelectionDropdown)
     {
+        string originalButtonText = _loadQuizButtonText.text;
+        _loadQuizButtonText.text = "Bitte warten...";
         string selectedQuizName = quizSelectionDropdown.options[quizSelectionDropdown.value].text;
         string selectedQuizPath = Path.Combine(QUIZZES_PATH, selectedQuizName) + ".json";
         if (File.Exists(selectedQuizPath))
         {
+            ResetEditor();
+            _quizNameInput.SetTextWithoutNotify(selectedQuizName);
             string json = File.ReadAllText(selectedQuizPath);
             activeQuiz = JsonUtility.FromJson<Quiz>(json);
-            UpdateEditor();
+            StartCoroutine(UpdateEditor(() => {
+                _loadQuizButtonText.text = originalButtonText;
+            }));
         }
         else
         {
             Debug.Log("Path not found: " + selectedQuizPath);
+            RefreshQuizzesDropdownContents(_quizSelectionDropdown);
         }
     }
 
-    public void UpdateEditor()
+    public void DeleteQuizFromDropdown(TMP_Dropdown quizSelectionDropdown)
+    {
+        string selectedQuizName = quizSelectionDropdown.options[quizSelectionDropdown.value].text;
+        string selectedQuizPath = Path.Combine(QUIZZES_PATH, selectedQuizName) + ".json";
+        if (File.Exists(selectedQuizPath))
+        {
+            ShowDeleteConfirmPopup(selectedQuizName);
+        }
+        else
+        {
+            Debug.Log("Path not found: " + selectedQuizPath);
+            RefreshQuizzesDropdownContents(_quizSelectionDropdown);
+        }
+    }
+
+    public void ShowDeleteConfirmPopup(string quizName)
+    {
+        string path = Path.Combine(QUIZZES_PATH, quizName) + ".json";
+        _choiceCanvasPopup.SetPopupText($"{quizName} wirklich löschen?");
+        _choiceCanvasPopup.SetLeftChoiceText("Löschen");
+        _choiceCanvasPopup.SetRightChoiceText("Nein");
+        _choiceCanvasPopup.ResetClickActions();
+        _choiceCanvasPopup.AddLeftChoiceClickAction(DeleteQuizFinal, quizName);
+        _choiceCanvasPopup.ShowPopup();
+    }
+
+    public void DeleteQuizFinal(string quizName)
+    {
+        string path = Path.Combine(QUIZZES_PATH, quizName) + ".json";
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+            ShowInfoMessage($"{quizName} wurde erfolgreich gelöscht.");
+        }
+        else
+        {
+            ShowInfoMessage($"{quizName} existiert nicht.");
+        }
+        RefreshQuizzesDropdownContents(_quizSelectionDropdown);
+    }
+
+    private IEnumerator UpdateEditor(Action callback=null)
     {
         for (int i = 0; i < activeQuiz.items.Count; i++)
         {
@@ -229,9 +330,13 @@ public class QuizEditor : MonoBehaviour
             editorInputFieldComponents[i * 2 + 1].SetTextWithoutNotify(item.title);
             Texture2D portraitTexture = LoadTexture(item.portraitImagePath);
             editorPreviewImageComponents[i * 2].SetImage(portraitTexture);
+            yield return null;
             Texture2D artworkTexture = LoadTexture(item.artworkImagePath);
             editorPreviewImageComponents[i * 2 + 1].SetImage(artworkTexture);
+            yield return null;
         }
+
+        callback?.Invoke();
     }
 
     public void RefreshResourceFolderDropdownContents(TMP_Dropdown folderDropdown)
@@ -247,52 +352,65 @@ public class QuizEditor : MonoBehaviour
         folderDropdown.AddOptions(folderNames);
     }
 
-    public void LoadImagesFromDropdown(TMP_Dropdown folderDropdown)
+    public void ImportImagesFromDropdown(TMP_Dropdown folderDropdown)
     {
+        string originalButtonText = _importImagesButtonText.text;
         string selectedQuizName = folderDropdown.options[folderDropdown.value].text;
         string selectedQuizPath = Path.Combine(RESOURCES_PATH, selectedQuizName);
-        List<LoadedImage> images = LoadImages(selectedQuizPath);
+        StartCoroutine(LoadImages(selectedQuizPath, (done, total) => {
+            _importImagesButtonText.text = $"Bitte Warten ({done}/{total})";
+        }, images => {
+            Debug.Log($"Loaded {images.Count} images from Folder {selectedQuizPath}");
 
-        Debug.Log($"Loaded {images.Count} images from Folder {selectedQuizPath}");
+            foreach (LoadedImage image in images)
+            {
+                int index = fileOrder.FindIndex(x => x.StartsWith(image.name));
+                editorPreviewImageComponents[index].SetImage(image.texture);
+                int itemIndex = (index / 2);
+                bool isPortraitImage = index % 2 == 0;
+                Item item = activeQuiz.items[itemIndex];
+                if (isPortraitImage)
+                {
+                    item.portraitImagePath = image.path;
+                }
+                else
+                {
+                    item.artworkImagePath = image.path;
+                }
+            }
 
-        foreach (LoadedImage image in images)
-        {
-            int index = fileOrder.FindIndex(x => x.StartsWith(image.name));
-            editorPreviewImageComponents[index].SetImage(image.texture);
-            int itemIndex = (index / 2);
-            bool isPortraitImage = index % 2 == 0;
-            Item item = activeQuiz.items[itemIndex];
-            if (isPortraitImage)
-            {
-                item.portraitImagePath = image.path;
-            }
-            else
-            {
-                item.artworkImagePath = image.path;
-            }
-        }
+            _importImagesButtonText.text = originalButtonText;
+            Debug.Log("Done setting images.");
+        }));
     }
 
-    List<LoadedImage> LoadImages(string folderPath)
+    public IEnumerator LoadImages(string folderPath, Action<int, int> updateCallback, Action<List<LoadedImage>> callback)
     {
         string[] imagePaths = Directory.GetFiles(folderPath, "*.png");
-        List<LoadedImage> images = new List<LoadedImage>();
-        foreach (string path in imagePaths)
+        List<LoadedImage> images = new();
+        for (int i = 0; i < imagePaths.Length; i++)
         {
+            string path = imagePaths[i];
             Texture2D texture = LoadTexture(path);
             if (texture != null)
             {
-                LoadedImage image = new LoadedImage();
-                image.name = Path.GetFileNameWithoutExtension(path);
-                image.path = path;
-                image.texture = texture;
+                LoadedImage image = new()
+                {
+                    name = Path.GetFileNameWithoutExtension(path),
+                    path = path,
+                    texture = texture
+                };
                 images.Add(image);
             }
+
+            updateCallback?.Invoke(i, imagePaths.Length);
+            yield return null;
         }
-        return images;
+
+        callback?.Invoke(images);
     }
 
-    public Texture2D LoadTexture(string filePath)
+    public static Texture2D LoadTexture(string filePath)
     {
         Texture2D tex = null;
         byte[] fileData;
@@ -301,7 +419,7 @@ public class QuizEditor : MonoBehaviour
         {
             fileData = File.ReadAllBytes(filePath);
             tex = new Texture2D(2, 2, TextureFormat.BGRA32, false);
-            tex.LoadImage(fileData); // This will auto-resize the texture dimensions.
+            tex.LoadImage(fileData);
         }
         return tex;
     }
