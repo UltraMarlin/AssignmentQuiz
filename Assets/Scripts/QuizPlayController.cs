@@ -46,10 +46,10 @@ public class QuizPlaySession : MonoBehaviour
             ImagePair imagePair = new ImagePair();
             imagePair.position = i;
             imagePair.portrait = AssignmentQuiz.LoadTexture(item.portraitImagePath);
-            AssignmentQuiz.ShowInfoMessage(_canvasPopup, $"Laden...({++imagesLoaded}/{totalImagesToLoad})");
+            AssignmentQuiz.ShowInfoMessage(_canvasPopup, ProgressMessage(++imagesLoaded, totalImagesToLoad));
             yield return null;
             imagePair.artwork = AssignmentQuiz.LoadTexture(item.artworkImagePath);
-            AssignmentQuiz.ShowInfoMessage(_canvasPopup, $"Laden...({++imagesLoaded}/{totalImagesToLoad})");
+            AssignmentQuiz.ShowInfoMessage(_canvasPopup, ProgressMessage(++imagesLoaded, totalImagesToLoad));
             yield return null;
             imagePairs.Add(imagePair);
         }
@@ -60,8 +60,8 @@ public class QuizPlaySession : MonoBehaviour
             _backgroundImageComponent.texture = backgroundTexture;
             _backgroundImageComponent.color = Color.white;
         }
-        
-        AssignmentQuiz.ShowInfoMessage(_canvasPopup, $"Laden...({++imagesLoaded}/{totalImagesToLoad})");
+
+        AssignmentQuiz.ShowInfoMessage(_canvasPopup, ProgressMessage(++imagesLoaded, totalImagesToLoad));
         yield return null;
 
         _canvasPopup.HidePopup();
@@ -81,10 +81,17 @@ public class QuizPlaySession : MonoBehaviour
         }
     }
 
+    public string ProgressMessage(int current, int total)
+    {
+        int percentage = (int)((double)current / total * 100);
+        return $"Laden...({percentage}%)";
+    }
+
     public void ShowNextItem()
     {
         if (upcomingItem >= loadedQuiz.quiz.items.Count)
         {
+            Debug.Log("Starte Überprüfen Phase");
             return;
         }
         AssignmentQuiz.SetRawImageTexture(_artworkImage, imagePairs[upcomingItem].artwork);

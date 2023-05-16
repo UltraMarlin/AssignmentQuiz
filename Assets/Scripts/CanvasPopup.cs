@@ -13,6 +13,7 @@ public class CanvasPopup : MonoBehaviour
 
     private void Start()
     {
+        SetPopupText("");
         if (showFromStart)
         {
             ShowPopup();

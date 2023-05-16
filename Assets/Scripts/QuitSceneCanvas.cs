@@ -15,6 +15,7 @@ public class QuitSceneCanvas : CanvasPopup
             }
             else
             {
+                SetPopupText("Zum Hauptmenü?");
                 ShowPopup();
             }
         }
