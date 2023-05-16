@@ -4,9 +4,4 @@ using UnityEngine;
 public class LoadedQuiz : ScriptableObject
 {
     public Quiz quiz;
-
-    public void ResetToDefault()
-    {
-        quiz = null;
-    }
 }

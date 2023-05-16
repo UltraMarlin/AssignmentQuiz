@@ -36,6 +36,14 @@ public class ImagePair
     public Texture2D artwork;
 }
 
+public enum QuizGameState
+{
+    BeforeVerify,
+    Verify,
+    AfterVerify,
+    LastVerify
+}
+
 public class AssignmentQuiz
 {
     public static void SetRawImageTexture(RawImage rawImage, Texture2D artworkTexture)

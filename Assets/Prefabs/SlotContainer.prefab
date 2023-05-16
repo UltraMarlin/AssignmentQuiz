@@ -126,6 +126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5157546647650519328}
   - component: {fileID: 6065160206822314631}
+  - component: {fileID: 123006697751330204}
   m_Layer: 5
   m_Name: SlotContainer
   m_TagString: Untagged
@@ -164,6 +165,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1020447411101610583}
   m_CullTransparentMesh: 1
+--- !u!114 &123006697751330204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1020447411101610583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5df8a8198faaa844849ab6a304d1648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  borderImage: {fileID: 1324559602373403647}
 --- !u!1 &3302800314000818407
 GameObject:
   m_ObjectHideFlags: 0

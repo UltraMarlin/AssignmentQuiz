@@ -18,7 +18,6 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        loadedQuiz.ResetToDefault();
         QUIZZES_PATH = Path.Combine(Application.persistentDataPath, "Quizzes");
         if (!Directory.Exists(QUIZZES_PATH))
         {

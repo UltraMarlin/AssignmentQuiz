@@ -23,7 +23,6 @@ public class ItemController : MonoBehaviour, IPointerClickHandler
 
     public Texture2D ArtworkTexture
     {
-        get { return _artworkTexture; }
         set { _artworkTexture = value; }
     }
 
@@ -31,8 +30,11 @@ public class ItemController : MonoBehaviour, IPointerClickHandler
     {
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            RawImage artworkDisplay = _cachedArtworkDisplay != null ? _cachedArtworkDisplay : GameObject.FindGameObjectWithTag("ArtworkDisplay").GetComponent<RawImage>();
-            artworkDisplay.texture = ArtworkTexture;
+            if (_cachedArtworkDisplay == null)
+            {
+                _cachedArtworkDisplay = GameObject.FindGameObjectWithTag("ArtworkDisplay").GetComponent<RawImage>();
+            }
+            AssignmentQuiz.SetRawImageTexture(_cachedArtworkDisplay, _artworkTexture);
         }
     }
 }

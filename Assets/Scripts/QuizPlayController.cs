@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
 using TMPro;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
+using System.Linq;
 
 public class QuizPlaySession : MonoBehaviour
 {
@@ -16,10 +15,13 @@ public class QuizPlaySession : MonoBehaviour
     [SerializeField] private GameObject _itemPrefab;
     [SerializeField] private RawImage _backgroundImageComponent;
 
+    private GameObject mainGridCopy;
+
     private List<TMP_Text> textComponents = new List<TMP_Text>();
     public List<ImagePair> imagePairs;
 
     public int upcomingItem = 0;
+    private QuizGameState quizState;
 
     IEnumerator Start()
     {
@@ -29,9 +31,9 @@ public class QuizPlaySession : MonoBehaviour
         imagePairs = new List<ImagePair>();
         for (int i = 0; i < _mainGrid.transform.childCount; i++)
         {
-            GameObject editItem = _mainGrid.transform.GetChild(i).gameObject;
-            GameObject nameTextObject = AssignmentQuiz.FindChildWithTag(editItem, "NameInput");
-            GameObject titleTextObject = AssignmentQuiz.FindChildWithTag(editItem, "TitleInput");
+            GameObject slotContainer = _mainGrid.transform.GetChild(i).gameObject;
+            GameObject nameTextObject = AssignmentQuiz.FindChildWithTag(slotContainer, "NameInput");
+            GameObject titleTextObject = AssignmentQuiz.FindChildWithTag(slotContainer, "TitleInput");
             textComponents.Add(nameTextObject.GetComponent<TMP_Text>());
             textComponents.Add(titleTextObject.GetComponent<TMP_Text>());
         }
@@ -66,19 +68,73 @@ public class QuizPlaySession : MonoBehaviour
 
         _canvasPopup.HidePopup();
         AssignmentQuiz.Shuffle(imagePairs);
+        quizState = QuizGameState.BeforeVerify;
         ShowNextItem();
     }
 
     void Update()
     {
-        if (Input.GetButtonDown("NextImagePair"))
+        if (Input.GetButtonDown("LastVerify") && quizState >= QuizGameState.AfterVerify)
+        {
+            if (quizState == QuizGameState.AfterVerify)
+            {
+                mainGridCopy.SetActive(true);
+                _mainGrid.SetActive(false);
+                quizState = QuizGameState.LastVerify;
+                SetItemsInteractable(false);
+            } else
+            {
+                mainGridCopy.SetActive(false);
+                _mainGrid.SetActive(true);
+                quizState = QuizGameState.AfterVerify;
+                SetItemsInteractable(true);
+            }
+            return;
+        }
+
+        // Don't allow any other inputs while showing last verify state.
+        if (quizState == QuizGameState.LastVerify) { return; }
+
+        if (Input.GetButtonDown("NextImagePair") && quizState != QuizGameState.Verify)
         {
             ShowNextItem();
+            return;
         }
-        if (Input.GetButtonDown("ClearArtwork"))
+        if (Input.GetButtonDown("ClearArtwork") && quizState != QuizGameState.Verify)
         {
-            AssignmentQuiz.SetRawImageTexture(_artworkImage, null);
+            ClearArtwork();
+            return;
         }
+        if (Input.GetButtonDown("Verify"))
+        {
+            if (quizState != QuizGameState.Verify)
+            {
+                HighlightToggle(true);
+                quizState = QuizGameState.Verify;
+                SetItemsInteractable(false);
+            }
+            else
+            {
+                HighlightToggle(false);
+                quizState = QuizGameState.AfterVerify;
+                SetItemsInteractable(true);
+            }
+            return;
+        }
+    }
+
+    public void SetItemsInteractable(bool interactable)
+    {
+        GameObject[] itemObjects = GameObject.FindGameObjectsWithTag("Item");
+        foreach (GameObject itemObject in itemObjects)
+        {
+            itemObject.GetComponent<CanvasGroup>().blocksRaycasts = interactable;
+        }
+    }
+
+    public void ClearArtwork()
+    {
+        AssignmentQuiz.SetRawImageTexture(_artworkImage, null);
     }
 
     public string ProgressMessage(int current, int total)
@@ -91,7 +147,6 @@ public class QuizPlaySession : MonoBehaviour
     {
         if (upcomingItem >= loadedQuiz.quiz.items.Count)
         {
-            Debug.Log("Starte Überprüfen Phase");
             return;
         }
         AssignmentQuiz.SetRawImageTexture(_artworkImage, imagePairs[upcomingItem].artwork);
@@ -102,6 +157,40 @@ public class QuizPlaySession : MonoBehaviour
         itemController.ArtworkTexture = imagePairs[upcomingItem].artwork;
         itemController.Id = imagePairs[upcomingItem].position;
         upcomingItem++;
+    }
+
+    public void HighlightToggle(bool turnOn)
+    {     
+        for (int i = 0; i < _mainGrid.transform.childCount; i++)
+        {
+            GameObject slotContainer = _mainGrid.transform.GetChild(i).gameObject;
+            GameObject slotItem = AssignmentQuiz.FindChildWithTag(slotContainer, "Item");
+
+            if (slotItem != null && slotItem.GetComponent<ItemController>().Id == i)
+            {
+                slotContainer.GetComponent<SlotContainerController>().HighlightCorrect();
+            }
+            else
+            {
+                if (turnOn)
+                {
+                    slotContainer.GetComponent<SlotContainerController>().HighlightWrong();
+                }
+                else
+                {
+                    slotContainer.GetComponent<SlotContainerController>().HighlightNeutral();
+                }
+            }
+        }
+
+        if (turnOn)
+        {
+            if (mainGridCopy != null)
+            {
+                Destroy(mainGridCopy);
+            }
+            mainGridCopy = DuplicateAndDeactivate(_mainGrid);
+        }
     }
 
     private GameObject GetEmptySlot()
@@ -117,5 +206,13 @@ public class QuizPlaySession : MonoBehaviour
             }   
         }
         return emptySlot;
+    }
+
+    public GameObject DuplicateAndDeactivate(GameObject original)
+    {
+        GameObject duplicate = Instantiate(original);
+        duplicate.transform.SetParent(original.transform.parent, false);
+        duplicate.SetActive(false);
+        return duplicate;
     }
 }
