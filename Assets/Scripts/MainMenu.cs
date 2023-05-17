@@ -76,7 +76,8 @@ public class MainMenu : MonoBehaviour
 
     public void StartQuizFromDropdown(TMP_Dropdown quizSelectionDropdown)
     {
-        string selectedQuizName = quizSelectionDropdown.options[quizSelectionDropdown.value].text;
+        string selectedQuizName = AssignmentQuiz.GetSelectedStringFromDropdown(quizSelectionDropdown);
+        if (selectedQuizName == null) { return; }
         string selectedQuizPath = Path.Combine(QUIZZES_PATH, selectedQuizName) + ".json";
         if (File.Exists(selectedQuizPath))
         {

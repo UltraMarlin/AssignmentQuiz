@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -103,5 +104,14 @@ public class AssignmentQuiz
             tex.wrapMode = TextureWrapMode.Clamp;
         }
         return tex;
+    }
+
+    public static string GetSelectedStringFromDropdown(TMP_Dropdown dropdown)
+    {
+        if (dropdown.options.Count <= dropdown.value)
+        {
+            return null;
+        }
+        return dropdown.options[dropdown.value].text;
     }
 }

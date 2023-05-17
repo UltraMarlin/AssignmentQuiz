@@ -237,10 +237,12 @@ public class QuizEditor : MonoBehaviour
 
     public void LoadQuizFromDropdown(TMP_Dropdown quizSelectionDropdown)
     {
+        string selectedQuizName = AssignmentQuiz.GetSelectedStringFromDropdown(quizSelectionDropdown);
+        if (selectedQuizName == null) { return; }
+        string selectedQuizPath = Path.Combine(QUIZZES_PATH, selectedQuizName) + ".json";
+
         string originalButtonText = _loadQuizButtonText.text;
         _loadQuizButtonText.text = "Bitte warten...";
-        string selectedQuizName = quizSelectionDropdown.options[quizSelectionDropdown.value].text;
-        string selectedQuizPath = Path.Combine(QUIZZES_PATH, selectedQuizName) + ".json";
         if (File.Exists(selectedQuizPath))
         {
             ResetEditor();
@@ -260,7 +262,8 @@ public class QuizEditor : MonoBehaviour
 
     public void DeleteQuizFromDropdown(TMP_Dropdown quizSelectionDropdown)
     {
-        string selectedQuizName = quizSelectionDropdown.options[quizSelectionDropdown.value].text;
+        string selectedQuizName = AssignmentQuiz.GetSelectedStringFromDropdown(quizSelectionDropdown);
+        if (selectedQuizName == null) { return; }
         string selectedQuizPath = Path.Combine(QUIZZES_PATH, selectedQuizName) + ".json";
         if (File.Exists(selectedQuizPath))
         {
@@ -337,7 +340,8 @@ public class QuizEditor : MonoBehaviour
     public void ImportImagesFromDropdown(TMP_Dropdown folderDropdown)
     {
         string originalButtonText = _importImagesButtonText.text;
-        string selectedQuizName = folderDropdown.options[folderDropdown.value].text;
+        string selectedQuizName = AssignmentQuiz.GetSelectedStringFromDropdown(folderDropdown);
+        if (selectedQuizName == null) { return; }
         string selectedQuizPath = Path.Combine(RESOURCES_PATH, selectedQuizName);
         StartCoroutine(LoadImages(selectedQuizPath, (done, total) => {
             _importImagesButtonText.text = $"Bitte Warten ({done}/{total})";
