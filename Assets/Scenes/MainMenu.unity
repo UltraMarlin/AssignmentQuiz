@@ -1117,10 +1117,10 @@ RectTransform:
   m_Father: {fileID: 446071274}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: 1600, y: 80}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -20, y: 30}
+  m_SizeDelta: {x: -40, y: 80}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &541643821
 MonoBehaviour:
@@ -1139,7 +1139,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
+  m_ChildAlignment: 5
   m_Spacing: 80
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 1
@@ -1415,10 +1415,10 @@ RectTransform:
   m_Father: {fileID: 1311853030}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 23.3, y: -33.3}
+  m_SizeDelta: {x: 0, y: 46.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &963086457
 MonoBehaviour:
@@ -2740,7 +2740,33 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Hier stehen ganz tolle Infos \xFCber das Program."
+  m_text: "<indent=0%><line-height=150%><size=130%><b>Ordner mit Bildern vorbereiten:\r</b></size=130%>\n</line-height><indent=1%>-
+    Im Ordner \"QuizRessources\" neuen Ordner anlegen f\xFCr die jeweiligen Bilder,
+    die man verwenden m\xF6chte\r\n- Portrait-Bilder wie folgt benennen: p1, ...,
+    p25\r\n<indent=3%>- Seitenverh\xE4ltnis 1:1\r\n<indent=1%>- Gro\xDFe Artworks
+    wie folgt benennen: a1, ..., a25\r\n<indent=3%>- Seitenverh\xE4ltnis 4:5\r\n<indent=1%>-
+    Hintergrundbild wie folgt benennen: background\r\n<indent=3%>- Seitenverh\xE4ltnis
+    16:9\r\n\r\n<indent=0%><line-height=150%><size=130%><b>Quiz Editor:\r</b></size=130%>\n</line-height><indent=1%>-
+    Bilder Importieren: L\xE4dt Bilder in das Quiz, die sich im Ordner befinden,
+    der im obigen Dropdown ausgew\xE4hlt ist\r\n<indent=3%>- Ordner muss in \"QuizRessources\"
+    sein\r\n- Bilder m\xFCssen nach dem obigem Schema benannt sein\r\n- Falls Ordner
+    nicht in der Liste ist, mit dem Pfeil refreshen\r\n- Auf Button dr\xFCcken, damit
+    die Bilder automatisch richtig in die Bilderfelder einsortiert werden\r\n- Falls
+    der Bilderordner nicht alle der oben genannten Bilder enth\xE4lt, kein Problem\r\n<indent=5%>-
+    Es werden nur die Bilder, die sich im Ordner befinden und richtig benannt sind,
+    einsortiert\r\n- Alle anderen Bilderfelder bleiben unver\xE4ndert\r\n<indent=1%>-
+    Quiz Speichern: Speichert Quiz mit dem eingegebenen Namen\r\n- Quiz Laden: L\xE4dt
+    das im unteren Dropdown ausgew\xE4hlte Quiz in den Editor (ggf. Dropdown refreshen)\r\n-
+    Quiz L\xF6schen: L\xF6scht das Quiz, das im unteren Dropdown ausgew\xE4hlt ist\r\n-
+    Neues Quiz: Cleared alle Felder\r\n\r\n<indent=0%><line-height=150%><size=130%><b>Quiz
+    Starten:\r</b></size=130%>\n</line-height><indent=1%>- Leertaste: Zeigt den n\xE4chsten
+    Charakter an\r\n- Linksklick halten: Portraits auf andere Felder ziehen\r\n-
+    Rechtsklick auf Portrait: Zeigt das gro\xDFe Artwork von diesem Charakter an\r\n-
+    R: Zeigt an, welche der aktuellen Einsortierungen richtig und falsch sind\r\n<indent=3%>-
+    Nochmal R, um das wegzumachen\r\n<indent=1%>- X auf einsortiertem Portrait: Zieht
+    es automatisch raus aus dem Slot und rechts in das gro\xDFe Feld\r\n- C: Cleared
+    das gro\xDFe Artwork\r\n- V: Zeigt nochmal das letzte durch R Dr\xFCcken angezeigte
+    Ergebnis an"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 29d0902b34676d54893adbaebd3dbf5e, type: 2}
   m_sharedMaterial: {fileID: 7359584183593160843, guid: 29d0902b34676d54893adbaebd3dbf5e, type: 2}
@@ -2767,8 +2793,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2779,7 +2805,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 7
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -2834,8 +2860,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -22}
-  m_SizeDelta: {x: -60, y: 750.8868}
+  m_AnchoredPosition: {x: 0, y: -30}
+  m_SizeDelta: {x: -400, y: 850}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1795006854
 GameObject:

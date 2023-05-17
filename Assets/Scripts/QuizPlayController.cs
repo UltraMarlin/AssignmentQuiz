@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 public class QuizPlaySession : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class QuizPlaySession : MonoBehaviour
 
     public int upcomingItem = 0;
     private QuizGameState quizState;
+
+    public GameObject deslotObject;
 
     IEnumerator Start()
     {
@@ -95,7 +98,7 @@ public class QuizPlaySession : MonoBehaviour
         // Don't allow any other inputs while showing last verify state.
         if (quizState == QuizGameState.LastVerify) { return; }
 
-        if (Input.GetButtonDown("NextImagePair") && quizState != QuizGameState.Verify)
+        if (Input.GetButtonDown("ShowNextItem") && quizState != QuizGameState.Verify)
         {
             ShowNextItem();
             return;
@@ -103,6 +106,11 @@ public class QuizPlaySession : MonoBehaviour
         if (Input.GetButtonDown("ClearArtwork") && quizState != QuizGameState.Verify)
         {
             ClearArtwork();
+            return;
+        }
+        if (Input.GetButtonDown("DeslotItem") && quizState != QuizGameState.Verify)
+        {
+            DeslotItem();
             return;
         }
         if (Input.GetButtonDown("Verify"))
@@ -157,6 +165,32 @@ public class QuizPlaySession : MonoBehaviour
         itemController.ArtworkTexture = imagePairs[upcomingItem].artwork;
         itemController.Id = imagePairs[upcomingItem].position;
         upcomingItem++;
+    }
+
+    public void DeslotItem()
+    {
+        Debug.Log("Deslot");
+        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, results);
+
+        if (results.Count > 0)
+        {
+            foreach (RaycastResult result in results)
+            {
+                if (result.gameObject.CompareTag("Item"))
+                {
+                    Transform deslotTransform = result.gameObject.transform;
+                    deslotTransform.SetParent(deslotTransform.root);
+                    GameObject emptySlot = GetEmptySlot();
+                    deslotTransform.SetParent(emptySlot.transform);
+                }
+            }
+        }
     }
 
     public void HighlightToggle(bool turnOn)
