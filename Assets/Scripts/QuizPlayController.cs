@@ -15,6 +15,7 @@ public class QuizPlaySession : MonoBehaviour
     [SerializeField] private GameObject _subGrid;
     [SerializeField] private GameObject _itemPrefab;
     [SerializeField] private RawImage _backgroundImageComponent;
+    [SerializeField] private TMP_Text _previousAttemptText;
 
     private GameObject mainGridCopy;
 
@@ -71,7 +72,8 @@ public class QuizPlaySession : MonoBehaviour
 
         _canvasPopup.HidePopup();
         AssignmentQuiz.Shuffle(imagePairs);
-        quizState = QuizGameState.BeforeVerify;
+        SetQuizState(QuizGameState.BeforeVerify);
+        _previousAttemptText.text = "";
         ShowNextItem();
     }
 
@@ -83,13 +85,13 @@ public class QuizPlaySession : MonoBehaviour
             {
                 mainGridCopy.SetActive(true);
                 _mainGrid.SetActive(false);
-                quizState = QuizGameState.LastVerify;
+                SetQuizState(QuizGameState.LastVerify);
                 SetItemsInteractable(false);
             } else
             {
                 mainGridCopy.SetActive(false);
                 _mainGrid.SetActive(true);
-                quizState = QuizGameState.AfterVerify;
+                SetQuizState(QuizGameState.AfterVerify);
                 SetItemsInteractable(true);
             }
             return;
@@ -118,17 +120,23 @@ public class QuizPlaySession : MonoBehaviour
             if (quizState != QuizGameState.Verify)
             {
                 HighlightToggle(true);
-                quizState = QuizGameState.Verify;
+                SetQuizState(QuizGameState.Verify);
                 SetItemsInteractable(false);
             }
             else
             {
                 HighlightToggle(false);
-                quizState = QuizGameState.AfterVerify;
+                SetQuizState(QuizGameState.AfterVerify);
                 SetItemsInteractable(true);
             }
             return;
         }
+    }
+
+    private void SetQuizState(QuizGameState state)
+    {
+        _previousAttemptText.text = (state == QuizGameState.LastVerify) ? "vorherige Lösung" : "";
+        quizState = state;
     }
 
     public void SetItemsInteractable(bool interactable)
@@ -169,7 +177,6 @@ public class QuizPlaySession : MonoBehaviour
 
     public void DeslotItem()
     {
-        Debug.Log("Deslot");
         PointerEventData pointerData = new PointerEventData(EventSystem.current)
         {
             position = Input.mousePosition
